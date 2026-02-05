@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  playwright-bridge:
+    build: .
+    container_name: playwright-bridge-1
+    environment:
+      - MCPO_API_KEY=${MCPO_API_KEY}
+    ports:
+      - "8010:8000"
+    networks:
+      - shared-net
+    restart: unless-stopped
+
+networks:
+  shared-net:
+    external: true
