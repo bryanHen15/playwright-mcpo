@@ -29,4 +29,5 @@ WORKDIR /app
 EXPOSE 8000
 
 # 4) Run MCPO and launch Playwright MCP using the Chrome channel
-CMD ["sh","-lc","/opt/venv/bin/mcpo --port 8000 --api-key \"$MCPO_API_KEY\" -- npx -y @playwright/mcp@latest --browser chrome"]
+CMD ["sh","-lc","/opt/venv/bin/mcpo --port 8000 --api-key \"$MCPO_API_KEY\" -- npx -y @playwright/mcp@latest --headless --browser chromium --no-sandbox --timeout-navigation 180000 --timeout-action 30000"]
+
