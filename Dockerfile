@@ -15,4 +15,5 @@ WORKDIR /app
 EXPOSE 8000
 
 # Use the venv mcpo binary
-CMD ["sh","-lc","/opt/venv/bin/mcpo --port 8000 --api-key \"$MCPO_API_KEY\" -- npx -y @playwright/mcp@latest"]
+CMD ["sh","-lc","/opt/venv/bin/mcpo --port 8000 --api-key \"$MCPO_API_KEY\" -- npx -y @playwright/mcp@latest --browser chromium"]
+
