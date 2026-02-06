@@ -12,6 +12,7 @@ RUN python3 -m venv /opt/venv \
 
 ENV PORT=8000
 WORKDIR /app
+RUN npm -g install playwright
 EXPOSE 8000
 
 # We'll add this file to your repo next
