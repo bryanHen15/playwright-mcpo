@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.50.0-noble
+FROM mcr.microsoft.com/playwright:v1.58.1-noble
 
 # Install Python + venv + pip
 RUN apt-get update && apt-get install -y --no-install-recommends \
