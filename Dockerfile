@@ -12,7 +12,10 @@ RUN python3 -m venv /opt/venv \
 
 ENV PORT=8000
 WORKDIR /app
-RUN npm -g install playwright
+# Install Playwright JS library locally so node can import it
+RUN npm init -y \
+  && npm install --omit=dev playwright
+
 EXPOSE 8000
 
 # We'll add this file to your repo next
