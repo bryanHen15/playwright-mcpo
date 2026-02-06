@@ -5,22 +5,21 @@ services:
     build: .
     container_name: playwright-bridge-1
 
-    # Stability fixes for browsers in containers
+    # Browser/container stability
     init: true
     ipc: host
     shm_size: "1gb"
 
     environment:
-      # Passed from Portainer stack environment variables
       - MCPO_API_KEY=${MCPO_API_KEY}
 
-      # Force MCP to use Playwright-managed Firefox (NOT system firefox)
+      # Force MCP to use Firefox
       - PLAYWRIGHT_MCP_BROWSER=firefox
       - PLAYWRIGHT_MCP_HEADLESS=1
       - PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION=180000
       - PLAYWRIGHT_MCP_TIMEOUT_ACTION=30000
 
-      # Make sure MCP/Playwright uses the browsers shipped in the Playwright Docker image
+      # Use browsers installed into /ms-playwright during build
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
       - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
