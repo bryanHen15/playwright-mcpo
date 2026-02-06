@@ -3,9 +3,9 @@ version: "3.9"
 services:
   playwright-bridge:
     build: .
+    image: playwright-bridge:novnc
     container_name: playwright-bridge-1
 
-    # Stability fixes for browsers in containers
     init: true
     ipc: host
     shm_size: "1gb"
@@ -13,29 +13,26 @@ services:
     environment:
       - MCPO_API_KEY=${MCPO_API_KEY}
 
-      # Force MCP to use Firefox
-      - PLAYWRIGHT_MCP_BROWSER=firefox
-      - PLAYWRIGHT_MCP_HEADLESS=1
-      - PLAYWRIGHT_MCP_TIMEOUT_NAVIGATION=180000
-      - PLAYWRIGHT_MCP_TIMEOUT_ACTION=30000
-
-      # Use Playwright's preinstalled browsers directory
+      # Keep these (not harmful); MCP start.sh will run headful for login phase
       - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
       - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
-      # Persistent user profile + cookie importer input path
+      # Persistent profile lives here
       - PLAYWRIGHT_MCP_USER_DATA_DIR=/data/profile
+
+      # Keep cookie path for later (not used in noVNC login phase)
       - COOKIES_PATH=/data/cookies.txt
 
     ports:
       - "8010:8000"
+      - "6080:6080"
+      - "5900:5900"
+
+    volumes:
+      - playwright_data:/data
 
     networks:
       - shared-net
-
-    # Single named volume holds cookies + persistent profile
-    volumes:
-      - playwright_data:/data
 
     restart: unless-stopped
 
