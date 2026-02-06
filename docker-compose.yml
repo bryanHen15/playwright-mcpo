@@ -1,44 +1,22 @@
-version: "3.9"
-
 services:
   playwright-bridge:
-    build: .
+    build:
+      context: .
     container_name: playwright-bridge-1
-
-    init: true
-    ipc: host
-    shm_size: "1gb"
-
-    environment:
-      - MCPO_API_KEY=${MCPO_API_KEY}
-
-      # Keep these (not harmful); MCP start.sh will run headful for login phase
-      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-      - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-
-      # Persistent profile lives here
-      - PLAYWRIGHT_MCP_USER_DATA_DIR=/data/profile
-
-      # Keep cookie path for later (not used in noVNC login phase)
-      - COOKIES_PATH=/data/cookies.txt
-
-    ports:
-      - "8010:8000"
-      - "6080:6080"
-      - "5900:5900"
-
-    volumes:
-      - playwright_data:/data
-
-    networks:
-      - shared-net
-
     restart: unless-stopped
 
-networks:
-  shared-net:
-    external: true
+    ports:
+      - "8000:8000"   # MCPO OpenAPI
+      - "6080:6080"   # noVNC web UI
 
-volumes:
-  playwright_data:
-    external: true
+    environment:
+      MCPO_API_KEY: "${MCPO_API_KEY}"
+
+      # Make sure profile is persisted here
+      PLAYWRIGHT_MCP_USER_DATA_DIR: "/data/profile"
+
+    volumes:
+      - ./data:/data
+      # put cookies.txt/json in ./data locally (NOT repo)
+
+    shm_size: "1gb"
